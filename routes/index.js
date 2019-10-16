@@ -7,6 +7,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'ExpressTrain' });
 });
 
+// To Be Used Later
 // router.get('/auth/logout', function(req, res){
 //   console.log(req.session);
 //   req.logout();

@@ -62,6 +62,12 @@ router.post('/login', function(req, res, next) {
     })(req, res, next);
   });
 
+  //Test logout functionality
+  // router.get('/logout', function(req, res){
+  //   req.logout();
+  //   res.redirect('/auth');
+  // });
+
   router.delete('/logout', function(req, res){
     req.logout();
     if(!req.session.passport.user){
@@ -69,11 +75,6 @@ router.post('/login', function(req, res, next) {
     }else{
       return res.json({success: 'false'});
     }
-  });
-  
-  router.get('/logout', function(req, res){
-    req.logout();
-    res.redirect('/auth');
   });
       
 module.exports = router;
