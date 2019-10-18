@@ -109,13 +109,31 @@ function registrationForm(){
         });
       }
 
-      return {
-      load: function(){
+  return {
+  load: function(){
+
+    switch(window.location.hash){
+      case '#register':
         registrationForm();
         postRequest('registrationForm', '/api/auth/register');
         validate.registrationForm();
-      }
+        break;
+
+      default:
+        loginForm();
+        postRequest('loginForm', '/api/auth/login');
+        break;
     }
+
+  }
+}
+    //   return {
+    //   load: function(){
+    //     registrationForm();
+    //     postRequest('registrationForm', '/api/auth/register');
+    //     validate.registrationForm();
+    //   }
+    // }
   })();
   
   var validate = (function() {
@@ -145,6 +163,9 @@ function registrationForm(){
 
 })();
 
+authApp.load();
 
+window.addEventListener("hashchange", function(){
   authApp.load();
+});
   
