@@ -6,16 +6,8 @@ var Users = require('../models/users');
 //   res.send('respond with a resource');
 // });
 
-router.get('/', function(req, res, next) {
-
-  Users.find({},function(err, users){
-    if(err){
-     return res.json({'success':false, 'error': err});
-    }
-
-    return res.json({'success':true, 'users': users});
-  });
-
+router.get('/app', function(req, res, next) {
+  res.render('users/app', { title: 'User Management' });
 });
 
 module.exports = router;
