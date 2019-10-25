@@ -1,54 +1,58 @@
 var express = require('express');
 var router = express.Router();
-var articles = require('../../models/articles');
+
+var Articles = require('../../models/articles');
 
 router.get('/', function(req, res, next) {
-
-  articles.find({},function(err, articles){
+  Articles.find({}, null, {sort: '-published'}, function(err, articles){
     if(err){
      return res.json({'success':false, 'error': err});
-    }
-
+   }
     return res.json({'success':true, 'articles': articles});
   });
-
 });
 
 router.get('/:id', function(req,res){
-  
   var id = req.params.id;
-
-  articles.findOne({'_id':id}, function(err, article){
+  Articles.findOne({'_id':id}, function(err, article){
     if(err){
       return res.json({'success':false, 'error': err});
     }
-
-    return res.json({'success':true, 'article': articles});
+      return res.json({'success':true, 'article': article});
   });
-
 });
 
+router.get('/byUser/:userID', function(req,res){
+  var userID = req.params.userID;
+  Articles.find({'userID':userID}, null, {sort: '-published'}, function(err, articles){
+    if(err){
+      return res.json({'success':false, 'error': err});
+    }
+      return res.json({'success':true, 'articles': articles});
+    });
+  });
+
 router.post('/', function(req, res) {
-  articles.create(new articles({
+  Articles.create(new Articles({
     title: req.body.title,
     description: req.body.description,
     keywords: req.body.keywords,
     body: req.body.body,
     published: req.body.published
   }), function(err, article){
-    
+
     if(err){
       return res.json({success: false, article: req.body, error: err});
     }
 
     return res.json({success: true, article: article});
-    
+
   });
 });
 
 router.put('/', function(req, res){
 
-  articles.findOne({'_id': req.body._id}, function(err, article){
+  Articles.findOne({'_id': req.body._id}, function(err, article){
 
   if(err) {
     return res.json({success: false, error: err});
@@ -95,7 +99,7 @@ router.delete('/:articleId', function(req,res){
 
   var articleId = req.params.articleId;
 
-  articles.remove({'_id':articleId}, function(err,removed){
+  Articles.remove({'_id':articleId}, function(err,removed){
 
     if(err){
       return res.json({success: false, error: err});
