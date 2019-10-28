@@ -6,8 +6,15 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/logout', function(req, res){
-  req.logout();
-  res.redirect('/auth');
+// Code Used to provide log-out of API with need to clear cookie 
+//   req.logout();
+//   res.redirect('/auth');
+// });
+  // Final code provides reliable log-out of API without need to clear cookie 
+  req.session.destroy(function (err) {
+  res.redirect('/'); //Inside a callback… bulletproof!
+  });
+
 });
 
 module.exports = router;
